@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { categories, products } from "@/lib/catalog";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://wascotextil.vercel.app";
   const staticRoutes = [
