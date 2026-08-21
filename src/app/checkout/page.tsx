@@ -74,7 +74,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="mx-auto grid max-w-[1440px] gap-12 px-4 py-12 sm:px-6 lg:grid-cols-[1fr_0.8fr] lg:px-10 lg:py-16">
+    <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[1fr_0.8fr] lg:px-12 lg:py-20">
       <div>
         <p className="text-[11px] uppercase tracking-[0.2em] text-muted">Checkout</p>
         <h1 className="mt-3 font-serif text-4xl tracking-tight sm:text-5xl">Bestellanfrage</h1>
@@ -83,7 +83,7 @@ export default function CheckoutPage() {
         </p>
 
         {status === "ready" ? (
-          <div className="mt-10 border border-line bg-white p-6">
+          <div className="mt-10 rounded-[28px] border border-line bg-white p-6">
             <h2 className="text-xl">Anfrage vorbereitet</h2>
             <p className="mt-3 text-sm leading-6 text-muted">
               Dein E-Mail-Programm sollte sich mit der Bestellanfrage an {company.email} geöffnet haben. Falls nicht, schreib uns direkt oder ruf an unter {company.phone}.
@@ -140,7 +140,7 @@ export default function CheckoutPage() {
         )}
       </div>
 
-      <aside className="h-fit border border-line bg-white p-6">
+      <aside className="h-fit rounded-[28px] border border-line bg-white/80 p-6 backdrop-blur-sm">
         <h2 className="text-[11px] uppercase tracking-[0.16em] text-muted">Zusammenfassung</h2>
         <ul className="mt-5 space-y-4">
           {items.map((item) => (

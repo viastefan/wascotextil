@@ -1,7 +1,7 @@
 import type { InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
 
 const fieldClass =
-  "w-full min-h-11 border border-line bg-white px-3 text-[15px] text-ink placeholder:text-muted/70";
+  "w-full min-h-12 rounded-2xl border border-line bg-white px-4 text-[15px] text-ink placeholder:text-muted/70 transition focus:border-ink";
 
 export function Field({
   label,

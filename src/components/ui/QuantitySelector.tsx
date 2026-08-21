@@ -12,18 +12,18 @@ export function QuantitySelector({
   max?: number;
 }) {
   return (
-    <div className="inline-flex h-11 items-center border border-line bg-white">
+    <div className="inline-flex h-11 items-center overflow-hidden rounded-full border border-line bg-white">
       <button
         type="button"
         aria-label="Menge verringern"
-        className="grid h-11 w-11 place-items-center text-lg"
+        className="grid h-11 w-11 place-items-center text-lg hover:bg-paper-2"
         onClick={() => onChange(Math.max(min, value - 1))}
       >
         −
       </button>
       <input
         aria-label="Menge"
-        className="h-11 w-14 border-x border-line bg-transparent text-center text-sm tabular-nums"
+        className="h-11 w-12 border-x border-line bg-transparent text-center text-sm tabular-nums"
         inputMode="numeric"
         value={value}
         onChange={(event) => {
@@ -35,7 +35,7 @@ export function QuantitySelector({
       <button
         type="button"
         aria-label="Menge erhöhen"
-        className="grid h-11 w-11 place-items-center text-lg"
+        className="grid h-11 w-11 place-items-center text-lg hover:bg-paper-2"
         onClick={() => onChange(Math.min(max, value + 1))}
       >
         +

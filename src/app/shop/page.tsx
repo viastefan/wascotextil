@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ShopPage() {
   return (
-    <div className="mx-auto max-w-[1440px] px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
+    <div className="mx-auto max-w-[1600px] px-5 py-14 sm:px-8 lg:px-12 lg:py-20">
       <p className="text-[11px] uppercase tracking-[0.2em] text-muted">Shop</p>
       <h1 className="mt-3 font-serif text-4xl tracking-tight sm:text-6xl">Textilien hochwertig personalisiert</h1>
       <p className="mt-5 max-w-2xl text-[16px] leading-7 text-muted">

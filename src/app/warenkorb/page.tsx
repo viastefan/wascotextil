@@ -15,7 +15,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:py-16">
+    <div className="mx-auto max-w-3xl px-5 py-14 sm:px-6 lg:py-20">
       <p className="text-[11px] uppercase tracking-[0.2em] text-muted">Warenkorb</p>
       <h1 className="mt-3 font-serif text-4xl tracking-tight sm:text-5xl">Deine Auswahl</h1>
       {items.length === 0 ? (
@@ -30,7 +30,7 @@ export default function CartPage() {
           <ul className="mt-10 divide-y divide-line border-y border-line">
             {items.map((item) => (
               <li key={item.key} className="flex flex-col gap-4 py-6 sm:flex-row">
-                <div className="h-24 w-20 shrink-0" style={{ background: item.colorHex }} />
+                  <div className="h-24 w-20 shrink-0 rounded-2xl" style={{ background: item.colorHex }} />
                 <div className="min-w-0 flex-1">
                   <Link href={`/shop/${item.category}/${item.slug}`} className="text-lg">
                     {item.name}

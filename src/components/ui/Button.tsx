@@ -2,10 +2,10 @@ import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
 const variants = {
-  primary: "bg-ink text-white hover:bg-black disabled:bg-ink/40",
+  primary: "bg-ink text-white hover:bg-black disabled:bg-ink/40 shadow-[0_10px_30px_rgba(11,11,11,0.12)]",
   red: "bg-red text-white hover:bg-[#c50510] disabled:bg-red/40",
-  ghost: "bg-transparent text-ink border border-ink/15 hover:border-ink hover:bg-white",
-  white: "bg-white text-ink hover:bg-paper-2",
+  ghost: "bg-transparent text-ink border border-ink/12 hover:border-ink/40 hover:bg-white/70",
+  white: "bg-white/80 text-ink hover:bg-white backdrop-blur-sm",
 } as const;
 
 type Variant = keyof typeof variants;
@@ -26,7 +26,7 @@ export function Button({
   ButtonHTMLAttributes<HTMLButtonElement> & {
     href?: string;
   } & AnchorHTMLAttributes<HTMLAnchorElement>) {
-  const classes = `inline-flex min-h-11 items-center justify-center gap-2 px-5 text-[13px] font-medium tracking-[0.04em] uppercase transition-colors ${variants[variant]} ${className}`;
+  const classes = `pressable inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-[13px] font-medium tracking-[0.06em] uppercase ${variants[variant]} ${className}`;
 
   if (href) {
     const { type, ...anchorProps } = props as ButtonHTMLAttributes<HTMLButtonElement> &

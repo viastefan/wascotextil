@@ -93,17 +93,17 @@ export function ProductConfigurator({ product }: { product: Product }) {
   return (
     <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
       <div>
-        <div className="relative aspect-[4/5] overflow-hidden bg-paper-2 sm:aspect-[5/6]">
+        <div className="relative aspect-[4/5] overflow-hidden rounded-[32px] bg-paper-2 sm:aspect-[5/6]">
           <Image
             src={product.images[activeImage].src}
             alt={product.images[activeImage].alt}
             fill
             priority
-            className="object-cover opacity-40"
+            className="object-cover opacity-40 transition duration-700"
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
           <div className="absolute inset-0 grid place-items-center p-8 sm:p-14">
-            <ProductSilhouette type={product.silhouette} color={color.hex} className="h-[82%] w-auto" />
+            <ProductSilhouette type={product.silhouette} color={color.hex} className="h-[82%] w-auto drop-shadow-[0_30px_50px_rgba(0,0,0,0.14)]" />
           </div>
         </div>
         <div className="mt-3 grid grid-cols-3 gap-3">
@@ -112,7 +112,7 @@ export function ProductConfigurator({ product }: { product: Product }) {
               key={image.src}
               type="button"
               onClick={() => setActiveImage(index)}
-              className={`relative aspect-[4/3] overflow-hidden ${activeImage === index ? "ring-2 ring-ink" : ""}`}
+              className={`relative aspect-[4/3] overflow-hidden rounded-2xl transition duration-300 ${activeImage === index ? "ring-2 ring-ink ring-offset-2 ring-offset-paper" : "opacity-70 hover:opacity-100"}`}
               aria-label={`Bild ${index + 1}`}
             >
               <Image src={image.src} alt="" fill className="object-cover" sizes="200px" />
@@ -140,7 +140,7 @@ export function ProductConfigurator({ product }: { product: Product }) {
                 aria-label={item.name}
                 aria-pressed={item.id === colorId}
                 onClick={() => setColorId(item.id)}
-                className={`h-9 w-9 border ${item.id === colorId ? "border-ink ring-2 ring-ink ring-offset-2 ring-offset-paper" : "border-line"}`}
+                className={`h-9 w-9 rounded-full border transition duration-300 ${item.id === colorId ? "scale-110 border-ink ring-2 ring-ink ring-offset-2 ring-offset-paper" : "border-line hover:scale-105"}`}
                 style={{ background: item.hex }}
               />
             ))}
@@ -161,7 +161,7 @@ export function ProductConfigurator({ product }: { product: Product }) {
           {mix ? (
             <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
               {product.sizes.map((item) => (
-                <label key={item} className="flex items-center justify-between border border-line bg-white px-3 py-2 text-sm">
+                <label key={item} className="flex items-center justify-between rounded-2xl border border-line bg-white px-3 py-2 text-sm">
                   <span>{item}</span>
                   <input
                     inputMode="numeric"
@@ -185,7 +185,7 @@ export function ProductConfigurator({ product }: { product: Product }) {
                   key={item}
                   type="button"
                   onClick={() => setSize(item)}
-                  className={`min-w-11 px-3 py-2 text-sm ${item === size ? "bg-ink text-white" : "border border-line bg-white"}`}
+                  className={`min-h-11 min-w-11 rounded-full px-3 text-sm transition duration-300 ${item === size ? "bg-ink text-white" : "border border-line bg-white hover:border-ink/40"}`}
                 >
                   {item}
                 </button>
@@ -202,8 +202,8 @@ export function ProductConfigurator({ product }: { product: Product }) {
                 key={option.id}
                 type="button"
                 onClick={() => setFinishing(option.id)}
-                className={`flex items-start justify-between gap-4 border px-4 py-3 text-left ${
-                  finishing === option.id ? "border-ink bg-white" : "border-line bg-transparent"
+                className={`flex items-start justify-between gap-4 rounded-2xl border px-4 py-3 text-left transition duration-300 ${
+                  finishing === option.id ? "border-ink bg-white shadow-[0_10px_30px_rgba(0,0,0,0.04)]" : "border-line bg-transparent hover:bg-white/60"
                 }`}
               >
                 <span>
@@ -239,7 +239,7 @@ export function ProductConfigurator({ product }: { product: Product }) {
             value={note}
             onChange={(event) => setNote(event.target.value)}
             placeholder="Logo auf Brust, Vereinsname auf dem Rücken, Wunschtermin…"
-            className="mt-3 min-h-24 w-full border border-line bg-white px-3 py-3 text-sm"
+            className="mt-3 min-h-24 w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm"
           />
         </div>
 
@@ -254,7 +254,7 @@ export function ProductConfigurator({ product }: { product: Product }) {
         </div>
         <p className="mt-4 hidden text-xs leading-5 text-muted lg:block">{priceDisclaimer}</p>
 
-        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-paper/95 px-4 py-3 backdrop-blur md:px-6 lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line/80 bg-paper/80 px-4 py-3 backdrop-blur-xl md:px-6 lg:hidden">
           <div className="mx-auto flex max-w-[1440px] items-center gap-3">
             <div className="min-w-0 flex-1">
               <p className="text-[10px] uppercase tracking-[0.16em] text-muted">Richtpreis</p>

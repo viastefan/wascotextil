@@ -37,14 +37,14 @@ export function ProductFilter({
     <div>
       <div className="mb-10 flex flex-col gap-4 border-b border-line pb-6 lg:flex-row lg:items-end lg:justify-between">
         <div className="no-scrollbar flex gap-6 overflow-x-auto text-sm">
-          <Link href="/shop" className={!initialCategory ? "text-red" : "text-muted hover:text-ink"}>
+          <Link href="/shop" className={!initialCategory ? "text-ink" : "text-muted hover:text-ink"}>
             Alle
           </Link>
           {categories.map((category) => (
             <Link
               key={category.slug}
               href={`/shop/${category.slug}`}
-              className={initialCategory === category.slug ? "text-red" : "text-muted hover:text-ink"}
+              className={initialCategory === category.slug ? "text-ink" : "text-muted hover:text-ink"}
             >
               {category.name}
             </Link>
@@ -53,7 +53,7 @@ export function ProductFilter({
         <div className="flex flex-wrap gap-3">
           <select
             aria-label="Veredelung filtern"
-            className="h-11 border border-line bg-white px-3 text-sm"
+            className="h-11 rounded-full border border-line bg-white px-4 text-sm"
             value={finishing}
             onChange={(event) => setFinishing(event.target.value as typeof finishing)}
           >
@@ -63,7 +63,7 @@ export function ProductFilter({
           </select>
           <select
             aria-label="Farbe filtern"
-            className="h-11 border border-line bg-white px-3 text-sm"
+            className="h-11 rounded-full border border-line bg-white px-4 text-sm"
             value={color}
             onChange={(event) => setColor(event.target.value)}
           >

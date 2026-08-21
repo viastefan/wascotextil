@@ -14,7 +14,7 @@ export function ProductSilhouette({
   return (
     <svg
       viewBox="0 0 200 240"
-      className={className}
+      className={`[&_path]:transition-[fill,stroke] [&_path]:duration-500 [&_path]:ease-[cubic-bezier(0.22,1,0.36,1)] ${className}`}
       aria-hidden="true"
       focusable="false"
     >

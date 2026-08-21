@@ -1,4 +1,5 @@
 import { company } from "@/lib/company";
+import { Reveal } from "@/components/ui/Reveal";
 
 const points = [
   {
@@ -21,14 +22,16 @@ const points = [
 
 export function TrustSection() {
   return (
-    <section className="border-t border-line bg-ink text-white">
-      <div className="mx-auto grid max-w-[1440px] gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-10 lg:py-20">
-        {points.map((point) => (
-          <article key={point.title}>
-            <div className="mb-4 h-6 w-px bg-red" />
-            <h3 className="text-lg">{point.title}</h3>
-            <p className="mt-3 text-sm leading-6 text-white/65">{point.text}</p>
-          </article>
+    <section className="bg-ink text-white">
+      <div className="mx-auto grid max-w-[1600px] gap-10 px-5 py-20 sm:px-8 md:grid-cols-2 lg:grid-cols-4 lg:px-12 lg:py-24">
+        {points.map((point, index) => (
+          <Reveal key={point.title} delay={index * 80}>
+            <article>
+              <div className="mb-5 h-8 w-px bg-red" />
+              <h3 className="text-xl">{point.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-white/60">{point.text}</p>
+            </article>
+          </Reveal>
         ))}
       </div>
     </section>

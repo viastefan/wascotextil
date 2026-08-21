@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <Link href="/" className={`leading-none ${className}`} aria-label="WASCOTEXTIL Startseite">
-      <span className="block font-sans text-[17px] font-semibold tracking-[0.02em] sm:text-[19px]">
+    <Link href="/" className={`leading-none transition-opacity duration-300 hover:opacity-70 ${className}`} aria-label="WASCOTEXTIL Startseite">
+      <span className="block font-sans text-[17px] font-semibold tracking-[0.04em] sm:text-[18px]">
         <span>WASCO</span>
         <span className="text-red">TEXTIL</span>
       </span>

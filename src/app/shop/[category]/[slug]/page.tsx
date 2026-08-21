@@ -34,7 +34,7 @@ export default async function ProductPage({ params }: Props) {
   const related = getProductsByCategory(category).filter((item) => item.id !== product.id);
 
   return (
-    <div className="mx-auto max-w-[1440px] px-4 py-10 pb-28 sm:px-6 lg:px-10 lg:pb-16">
+    <div className="mx-auto max-w-[1600px] px-5 py-10 pb-28 sm:px-8 lg:px-12 lg:pb-16">
       <p className="text-[11px] uppercase tracking-[0.18em] text-muted">
         Shop / {cat.name} / {product.name}
       </p>

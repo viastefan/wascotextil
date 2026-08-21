@@ -15,10 +15,18 @@ const nav = [
 
 export function Header() {
   const pathname = usePathname();
-  return <HeaderBar key={pathname} pathname={pathname} />;
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return <HeaderBar key={pathname} pathname={pathname} scrolled={scrolled} />;
 }
 
-function HeaderBar({ pathname }: { pathname: string }) {
+function HeaderBar({ pathname, scrolled }: { pathname: string; scrolled: boolean }) {
   const router = useRouter();
   const { getItemCount, openCart, hydrated } = useCart();
   const [open, setOpen] = useState(false);
@@ -41,20 +49,24 @@ function HeaderBar({ pathname }: { pathname: string }) {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/80 bg-paper/90 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-[1440px] items-center justify-between gap-4 px-4 sm:h-[72px] sm:px-6 lg:px-10">
+    <header
+      className={`sticky top-0 z-40 border-b transition-[background,border-color] duration-500 ${
+        scrolled ? "border-line/80 bg-paper/80 backdrop-blur-xl" : "border-transparent bg-paper/50 backdrop-blur-md"
+      }`}
+    >
+      <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-4 px-5 sm:h-[72px] sm:px-8 lg:px-12">
         <button
           type="button"
-          className="grid h-11 w-11 place-items-center lg:hidden"
+          className="grid h-11 w-11 place-items-center rounded-full hover:bg-white/60 lg:hidden"
           aria-expanded={open}
           aria-label={open ? "Menü schließen" : "Menü öffnen"}
           onClick={() => setOpen((value) => !value)}
         >
           <span className="sr-only">Menü</span>
           <span className="relative block h-3 w-5">
-            <span className={`absolute left-0 h-px w-5 bg-ink transition ${open ? "top-1.5 rotate-45" : "top-0"}`} />
-            <span className={`absolute left-0 top-1.5 h-px w-5 bg-ink transition ${open ? "opacity-0" : ""}`} />
-            <span className={`absolute left-0 h-px w-5 bg-ink transition ${open ? "top-1.5 -rotate-45" : "top-3"}`} />
+            <span className={`absolute left-0 h-px w-5 bg-ink transition duration-300 ${open ? "top-1.5 rotate-45" : "top-0"}`} />
+            <span className={`absolute left-0 top-1.5 h-px w-5 bg-ink transition duration-300 ${open ? "opacity-0" : ""}`} />
+            <span className={`absolute left-0 h-px w-5 bg-ink transition duration-300 ${open ? "top-1.5 -rotate-45" : "top-3"}`} />
           </span>
         </button>
 
@@ -67,7 +79,8 @@ function HeaderBar({ pathname }: { pathname: string }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`text-[13px] tracking-[0.08em] uppercase ${active ? "text-red" : "text-ink/80 hover:text-ink"}`}
+                data-active={active}
+                className={`nav-link text-[12px] tracking-[0.16em] uppercase ${active ? "text-ink" : "text-ink/55 hover:text-ink"}`}
               >
                 {item.label}
               </Link>
@@ -75,10 +88,10 @@ function HeaderBar({ pathname }: { pathname: string }) {
           })}
         </nav>
 
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-1">
           <button
             type="button"
-            className="grid h-11 w-11 place-items-center"
+            className="grid h-11 w-11 place-items-center rounded-full hover:bg-white/70"
             aria-label="Suche"
             onClick={() => setSearchOpen((value) => !value)}
           >
@@ -86,7 +99,7 @@ function HeaderBar({ pathname }: { pathname: string }) {
           </button>
           <button
             type="button"
-            className="relative grid h-11 min-w-11 place-items-center px-1"
+            className="relative grid h-11 min-w-11 place-items-center rounded-full px-1 hover:bg-white/70"
             aria-label={`Warenkorb, ${count} Artikel`}
             onClick={openCart}
           >
@@ -98,39 +111,40 @@ function HeaderBar({ pathname }: { pathname: string }) {
         </div>
       </div>
 
-      {searchOpen ? (
-        <form onSubmit={onSearch} className="border-t border-line bg-paper px-4 py-3 sm:px-6 lg:px-10">
+      <div className={`overflow-hidden transition-[max-height,opacity] duration-500 ${searchOpen ? "max-h-24 opacity-100" : "max-h-0 opacity-0"}`}>
+        <form onSubmit={onSearch} className="border-t border-line/70 bg-paper/90 px-5 py-4 sm:px-8 lg:px-12">
           <label className="sr-only" htmlFor="site-search">
             Textilien suchen
           </label>
           <input
             id="site-search"
-            autoFocus
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Shirts, Hoodies, Stick, Jutebeutel…"
-            className="h-12 w-full border-b border-ink bg-transparent text-lg outline-none placeholder:text-muted"
+            className="h-12 w-full border-b border-ink/20 bg-transparent text-xl outline-none placeholder:text-muted/70"
           />
         </form>
-      ) : null}
+      </div>
 
-      {open ? (
-        <div className="fixed inset-x-0 top-16 bottom-0 z-40 bg-paper px-6 py-8 lg:hidden">
-          <nav className="flex flex-col gap-6" aria-label="Mobile Navigation">
-            {nav.map((item) => (
-              <Link key={item.href} href={item.href} className="text-3xl tracking-tight">
-                {item.label}
-              </Link>
-            ))}
-            <Link href="/kontakt" className="text-3xl tracking-tight">
-              Kontakt
+      <div
+        className={`fixed inset-x-0 top-16 bottom-0 z-40 bg-paper/95 px-6 py-10 backdrop-blur-xl transition duration-500 lg:hidden ${
+          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+        }`}
+      >
+        <nav className="flex flex-col gap-5" aria-label="Mobile Navigation">
+          {nav.map((item) => (
+            <Link key={item.href} href={item.href} className="font-serif text-4xl tracking-tight">
+              {item.label}
             </Link>
-            <Link href="/faq" className="pt-4 text-sm uppercase tracking-[0.16em] text-muted">
-              FAQ
-            </Link>
-          </nav>
-        </div>
-      ) : null}
+          ))}
+          <Link href="/kontakt" className="font-serif text-4xl tracking-tight">
+            Kontakt
+          </Link>
+          <Link href="/faq" className="pt-6 text-sm uppercase tracking-[0.18em] text-muted">
+            FAQ
+          </Link>
+        </nav>
+      </div>
     </header>
   );
 }

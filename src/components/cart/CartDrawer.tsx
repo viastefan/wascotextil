@@ -16,32 +16,32 @@ export function CartDrawer() {
     <div className={`fixed inset-0 z-50 ${isOpen ? "" : "pointer-events-none"}`} aria-hidden={!isOpen}>
       <button
         type="button"
-        className={`absolute inset-0 bg-ink/40 transition ${isOpen ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-0 bg-ink/30 backdrop-blur-sm transition-opacity duration-500 ${isOpen ? "opacity-100" : "opacity-0"}`}
         onClick={closeCart}
         aria-label="Warenkorb schließen"
       />
       <aside
-        className={`absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-paper shadow-2xl transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-paper/95 shadow-[-24px_0_80px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? "translate-x-0" : "translate-x-full"}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="cart-title"
       >
-        <div className="flex items-center justify-between border-b border-line px-5 py-4">
-          <h2 id="cart-title" className="text-sm uppercase tracking-[0.16em]">
+        <div className="flex items-center justify-between px-6 py-5">
+          <h2 id="cart-title" className="text-[12px] uppercase tracking-[0.18em]">
             Warenkorb · {getItemCount()}
           </h2>
-          <button type="button" className="text-sm" onClick={closeCart}>
+          <button type="button" className="text-sm text-muted hover:text-ink" onClick={closeCart}>
             Schließen
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto px-5 py-5">
+        <div className="flex-1 overflow-y-auto px-6 py-2">
           {items.length === 0 ? (
-            <p className="text-sm text-muted">Noch keine Textilien ausgewählt.</p>
+            <p className="pt-8 text-sm leading-6 text-muted">Noch keine Textilien ausgewählt.</p>
           ) : (
-            <ul className="space-y-6">
+            <ul className="space-y-7">
               {items.map((item) => (
                 <li key={item.key} className="flex gap-4">
-                  <div className="h-20 w-16 shrink-0" style={{ background: item.colorHex }} />
+                  <div className="h-20 w-16 shrink-0 rounded-2xl" style={{ background: item.colorHex }} />
                   <div className="min-w-0 flex-1">
                     <Link href={`/shop/${item.category}/${item.slug}`} className="text-sm" onClick={closeCart}>
                       {item.name}
@@ -70,13 +70,13 @@ export function CartDrawer() {
             </ul>
           )}
         </div>
-        <div className="border-t border-line px-5 py-5">
+        <div className="px-6 py-6">
           <div className="flex items-end justify-between">
             <p className="text-[11px] uppercase tracking-[0.16em] text-muted">Summe</p>
-            <p className="text-lg tabular-nums">{formatEuro(getTotal())}</p>
+            <p className="text-2xl tabular-nums">{formatEuro(getTotal())}</p>
           </div>
           <p className="mt-2 text-xs leading-5 text-muted">{priceDisclaimer}</p>
-          <div className="mt-4 grid gap-2">
+          <div className="mt-5 grid gap-2">
             <Button href="/checkout" className="w-full" onClick={closeCart}>
               Zur Anfrage
             </Button>

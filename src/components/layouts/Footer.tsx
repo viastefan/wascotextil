@@ -26,13 +26,13 @@ const legal = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-white">
-      <div className="mx-auto grid max-w-[1440px] gap-12 px-4 py-16 sm:px-6 lg:grid-cols-4 lg:px-10">
+    <footer className="border-t border-line/70 bg-white/60">
+      <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-16 sm:px-8 lg:grid-cols-4 lg:px-12">
         <div>
-          <p className="text-[17px] font-semibold tracking-[0.02em]">
+          <p className="text-[17px] font-semibold tracking-[0.04em]">
             WASCO<span className="text-red">TEXTIL</span>
           </p>
-          <p className="mt-4 max-w-xs text-sm leading-6 text-muted">
+          <p className="mt-4 max-w-xs text-sm leading-7 text-muted">
             Textilveredelung in Paderborn. Digitaldruck, Flex, Flock und Stick — individuell und hochwertig.
           </p>
         </div>
@@ -41,7 +41,7 @@ export function Footer() {
           <ul className="mt-4 space-y-2 text-sm">
             {shop.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="hover:text-red">
+                <Link href={item.href} className="text-ink/70 transition hover:text-ink">
                   {item.label}
                 </Link>
               </li>
@@ -53,7 +53,7 @@ export function Footer() {
           <ul className="mt-4 space-y-2 text-sm">
             {companyLinks.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="hover:text-red">
+                <Link href={item.href} className="text-ink/70 transition hover:text-ink">
                   {item.label}
                 </Link>
               </li>
@@ -62,17 +62,17 @@ export function Footer() {
         </div>
         <div>
           <p className="text-[11px] uppercase tracking-[0.18em] text-muted">Atelier</p>
-          <p className="mt-4 text-sm leading-6">
+          <p className="mt-4 text-sm leading-7">
             {company.address.street}
             <br />
             {company.address.zip} {company.address.city}
           </p>
           <p className="mt-4 text-sm">
-            <a className="hover:text-red" href={company.phoneHref}>
+            <a className="text-ink/70 transition hover:text-ink" href={company.phoneHref}>
               {company.phone}
             </a>
             <br />
-            <a className="hover:text-red" href={`mailto:${company.email}`}>
+            <a className="text-ink/70 transition hover:text-ink" href={`mailto:${company.email}`}>
               {company.email}
             </a>
           </p>
@@ -85,8 +85,8 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-line">
-        <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-5 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-10">
+      <div className="border-t border-line/70">
+        <div className="mx-auto flex max-w-[1600px] flex-col gap-3 px-5 py-5 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
           <p>© {new Date().getFullYear()} {company.legalName}</p>
           <div className="flex gap-5">
             {legal.map((item) => (
