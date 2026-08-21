@@ -6,11 +6,12 @@ import { formatEuro } from "@/lib/format";
 import { company, priceDisclaimer } from "@/lib/company";
 import { Button } from "@/components/ui/Button";
 import { Field, Input, Textarea } from "@/components/ui/Input";
+import { BuyProgress } from "@/components/shop/BuyProgress";
 
-type Status = "idle" | "ready" | "empty";
+type Status = "idle" | "ready";
 
 export default function CheckoutPage() {
-  const { items, getTotal, getItemCount, hydrated } = useCart();
+  const { items, getTotal, getItemCount, hydrated, clearCart } = useCart();
   const [status, setStatus] = useState<Status>("idle");
   const [privacy, setPrivacy] = useState(false);
 
@@ -32,13 +33,14 @@ export default function CheckoutPage() {
   }, [items, getTotal, getItemCount]);
 
   if (!hydrated) {
-    return <div className="mx-auto max-w-3xl px-4 py-16 text-muted">Checkout wird geladen…</div>;
+    return <div className="mx-auto max-w-3xl px-5 py-16 text-muted">Checkout wird geladen…</div>;
   }
 
   if (items.length === 0 && status !== "ready") {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-16">
-        <h1 className="font-serif text-4xl">Keine Positionen</h1>
+      <div className="mx-auto max-w-3xl px-5 py-16">
+        <BuyProgress step={3} />
+        <h1 className="font-serif text-4xl tracking-tight">Keine Positionen</h1>
         <p className="mt-4 text-muted">Lege zuerst Textilien in den Warenkorb.</p>
         <Button href="/shop" className="mt-6">
           Zum Shop
@@ -74,29 +76,34 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[1fr_0.8fr] lg:px-12 lg:py-20">
+    <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-14 pb-28 sm:px-8 lg:grid-cols-[1fr_0.8fr] lg:px-12 lg:py-20 lg:pb-20">
       <div>
+        <BuyProgress step={3} />
         <p className="text-[11px] uppercase tracking-[0.2em] text-muted">Checkout</p>
         <h1 className="mt-3 font-serif text-4xl tracking-tight sm:text-5xl">Bestellanfrage</h1>
-        <p className="mt-4 max-w-xl text-muted">
-          Es wird keine Zahlung online durchgeführt. Du sendest eine Anfrage. Wir prüfen Textil, Motiv und Auflage und bestätigen den Auftrag gesondert.
+        <p className="mt-4 max-w-xl text-[16px] leading-7 text-muted">
+          Keine Online-Zahlung. Du bereitest eine E-Mail-Anfrage vor. Wir prüfen Textil, Motiv und Auflage und bestätigen den Auftrag gesondert.
         </p>
 
         {status === "ready" ? (
-          <div className="mt-10 rounded-[28px] border border-line bg-white p-6">
-            <h2 className="text-xl">Anfrage vorbereitet</h2>
-            <p className="mt-3 text-sm leading-6 text-muted">
+          <div className="mt-10 rounded-[28px] border border-line bg-white/80 p-7">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-red">Schritt 3 erledigt</p>
+            <h2 className="mt-3 text-2xl tracking-tight">Anfrage vorbereitet</h2>
+            <p className="mt-3 text-sm leading-7 text-muted">
               Dein E-Mail-Programm sollte sich mit der Bestellanfrage an {company.email} geöffnet haben. Falls nicht, schreib uns direkt oder ruf an unter {company.phone}.
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Button href={`mailto:${company.email}`}>E-Mail öffnen</Button>
+              <Button href={`mailto:${company.email}`}>E-Mail erneut öffnen</Button>
               <Button href={company.phoneHref} variant="ghost">
                 Anrufen
+              </Button>
+              <Button href="/shop" variant="ghost" onClick={() => clearCart()}>
+                Weiter einkaufen
               </Button>
             </div>
           </div>
         ) : (
-          <form onSubmit={onSubmit} className="mt-10 grid gap-5">
+          <form id="checkout-form" onSubmit={onSubmit} className="mt-10 grid gap-5">
             <div className="grid gap-5 sm:grid-cols-2">
               <Field label="Vorname" htmlFor="first">
                 <Input id="first" name="first" required autoComplete="given-name" />
@@ -108,7 +115,7 @@ export default function CheckoutPage() {
             <Field label="E-Mail" htmlFor="email">
               <Input id="email" name="email" type="email" required autoComplete="email" />
             </Field>
-            <Field label="Telefon" htmlFor="phone">
+            <Field label="Telefon" htmlFor="phone" hint="für Rückfragen hilfreich">
               <Input id="phone" name="phone" type="tel" autoComplete="tel" />
             </Field>
             <Field label="Unternehmen / Verein" htmlFor="org" hint="optional">
@@ -133,14 +140,14 @@ export default function CheckoutPage() {
                 zur Kenntnis genommen.
               </span>
             </label>
-            <Button type="submit" disabled={!privacy}>
+            <Button type="submit" disabled={!privacy} className="hidden lg:inline-flex">
               Anfrage per E-Mail vorbereiten
             </Button>
           </form>
         )}
       </div>
 
-      <aside className="h-fit rounded-[28px] border border-line bg-white/80 p-6 backdrop-blur-sm">
+      <aside className="h-fit rounded-[28px] border border-line bg-white/80 p-6 backdrop-blur-sm lg:sticky lg:top-28">
         <h2 className="text-[11px] uppercase tracking-[0.16em] text-muted">Zusammenfassung</h2>
         <ul className="mt-5 space-y-4">
           {items.map((item) => (
@@ -160,7 +167,26 @@ export default function CheckoutPage() {
           <span className="text-lg tabular-nums">{formatEuro(getTotal())}</span>
         </div>
         <p className="mt-3 text-xs leading-5 text-muted">{priceDisclaimer}</p>
+        {status === "idle" && items.length > 0 ? (
+          <Button type="submit" form="checkout-form" disabled={!privacy} className="mt-5 hidden w-full lg:flex">
+            Anfrage vorbereiten
+          </Button>
+        ) : null}
       </aside>
+
+      {status === "idle" && items.length > 0 ? (
+        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-line/80 bg-paper/85 px-4 py-3 backdrop-blur-xl lg:hidden">
+          <div className="mx-auto flex max-w-[1600px] items-center gap-3">
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] uppercase tracking-[0.16em] text-muted">Richtpreis</p>
+              <p className="text-lg tabular-nums">{formatEuro(getTotal())}</p>
+            </div>
+            <Button type="submit" form="checkout-form" disabled={!privacy} className="flex-1">
+              Anfrage senden
+            </Button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import { useCart } from "@/lib/cart";
 import { formatEuro } from "@/lib/format";
 import { priceDisclaimer } from "@/lib/company";
@@ -9,6 +10,15 @@ import { Button } from "@/components/ui/Button";
 
 export function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, getTotal, getItemCount, hydrated } = useCart();
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeCart();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen, closeCart]);
 
   if (!hydrated) return null;
 
@@ -36,7 +46,12 @@ export function CartDrawer() {
         </div>
         <div className="flex-1 overflow-y-auto px-6 py-2">
           {items.length === 0 ? (
-            <p className="pt-8 text-sm leading-6 text-muted">Noch keine Textilien ausgewählt.</p>
+            <div className="pt-10">
+              <p className="text-sm leading-6 text-muted">Noch keine Textilien ausgewählt.</p>
+              <Button href="/shop" className="mt-6" onClick={closeCart}>
+                Textilien entdecken
+              </Button>
+            </div>
           ) : (
             <ul className="space-y-7">
               {items.map((item) => (
@@ -70,20 +85,24 @@ export function CartDrawer() {
             </ul>
           )}
         </div>
-        <div className="px-6 py-6">
-          <div className="flex items-end justify-between">
-            <p className="text-[11px] uppercase tracking-[0.16em] text-muted">Summe</p>
-            <p className="text-2xl tabular-nums">{formatEuro(getTotal())}</p>
-          </div>
-          <p className="mt-2 text-xs leading-5 text-muted">{priceDisclaimer}</p>
-          <div className="mt-5 grid gap-2">
-            <Button href="/checkout" className="w-full" onClick={closeCart}>
-              Zur Anfrage
-            </Button>
-            <Button href="/warenkorb" variant="ghost" className="w-full" onClick={closeCart}>
-              Warenkorb
-            </Button>
-          </div>
+        <div className="border-t border-line/70 px-6 py-6">
+          {items.length > 0 ? (
+            <>
+              <div className="flex items-end justify-between">
+                <p className="text-[11px] uppercase tracking-[0.16em] text-muted">Summe</p>
+                <p className="text-2xl tabular-nums">{formatEuro(getTotal())}</p>
+              </div>
+              <p className="mt-2 text-xs leading-5 text-muted">{priceDisclaimer}</p>
+              <div className="mt-5 grid gap-2">
+                <Button href="/checkout" className="w-full" onClick={closeCart}>
+                  Weiter zur Anfrage
+                </Button>
+                <Button href="/shop" variant="ghost" className="w-full" onClick={closeCart}>
+                  Weiter einkaufen
+                </Button>
+              </div>
+            </>
+          ) : null}
         </div>
       </aside>
     </div>
