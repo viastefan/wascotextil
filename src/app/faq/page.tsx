@@ -42,14 +42,19 @@ const faqs = [
 
 export default function FAQPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:py-16">
-      <p className="text-[11px] uppercase tracking-[0.2em] text-muted">FAQ</p>
+    <div className="mx-auto max-w-3xl px-5 py-14 sm:px-6 lg:py-20">
+      <p className="text-[11px] uppercase tracking-[0.24em] text-muted">FAQ</p>
       <h1 className="mt-3 font-serif text-4xl tracking-tight sm:text-5xl">Fragen vor der Anfrage</h1>
       <div className="mt-10 divide-y divide-line border-y border-line">
         {faqs.map((item) => (
           <details key={item.q} className="group py-5">
-            <summary className="cursor-pointer list-none text-lg">{item.q}</summary>
-            <p className="mt-3 text-sm leading-6 text-muted">{item.a}</p>
+            <summary className="cursor-pointer list-none text-lg tracking-tight transition group-open:text-ink">
+              <span className="flex items-center justify-between gap-4">
+                {item.q}
+                <span className="text-muted transition group-open:rotate-45">+</span>
+              </span>
+            </summary>
+            <p className="mt-3 text-sm leading-7 text-muted">{item.a}</p>
           </details>
         ))}
       </div>

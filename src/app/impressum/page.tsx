@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 
 export default function ImprintPage() {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:py-16">
-      <h1 className="font-serif text-4xl tracking-tight">Impressum</h1>
+    <div className="mx-auto max-w-3xl px-5 py-14 sm:px-6 lg:py-20">
+      <h1 className="font-serif text-4xl tracking-tight sm:text-5xl">Impressum</h1>
       <div className="mt-8 space-y-6 text-sm leading-7">
         <section>
           <h2 className="text-[11px] uppercase tracking-[0.16em] text-muted">Angaben gemäß § 5 DDG</h2>

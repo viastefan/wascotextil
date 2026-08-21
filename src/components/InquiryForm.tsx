@@ -37,9 +37,9 @@ export function InquiryForm({
 
   if (sent) {
     return (
-      <div className="border border-line bg-white p-6">
-        <h2 className="text-xl">Anfrage vorbereitet</h2>
-        <p className="mt-3 text-sm leading-6 text-muted">
+      <div className="rounded-[28px] border border-line bg-white/80 p-7 backdrop-blur-sm">
+        <h2 className="text-xl tracking-tight">Anfrage vorbereitet</h2>
+        <p className="mt-3 text-sm leading-7 text-muted">
           Dein E-Mail-Programm sollte sich geöffnet haben. Alternativ: {company.email} oder {company.phone}. Es wird keine Nachricht serverseitig versendet.
         </p>
       </div>
@@ -47,7 +47,7 @@ export function InquiryForm({
   }
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-5">
+    <form onSubmit={onSubmit} className="grid gap-5 rounded-[28px] border border-line bg-white/70 p-6 backdrop-blur-sm sm:p-7">
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Vorname" htmlFor={`${intent}-first`}>
           <Input id={`${intent}-first`} name="first" required autoComplete="given-name" />
